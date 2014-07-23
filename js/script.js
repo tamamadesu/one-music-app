@@ -290,6 +290,14 @@ var Xiami = {
         $("#id_"+Xiami.play_index).addClass("current");
         Xiami.timer();
     },
+    next:function(){
+        Xiami.play_index++;
+        Xiami.play();
+    },
+    prev:function(){
+        Xiami.play_index--;
+        Xiami.play();
+    },
     init:function(){
         this.getRecommendCollect();
         $(".xiami_panel").delegate(".column li","click",this.getColumnContent);
@@ -311,17 +319,14 @@ var gui = require('nw.gui');
 var option = {
   key : "Ctrl+Shift+A",
   active : function() {
-    console.log("Global desktop keyboard shortcut: " + this.key + " active."); 
+    Xiami.next();
   },
   failed : function(msg) {
-    // :(, fail to register the |key| or couldn't parse the |key|.
-    console.log(msg);
   }
 };
 // Create a shortcut with |option|.
-// var shortcut = new gui.Shortcut(option);
-
-// gui.App.registerGlobalHotKey(shortcut);
+var shortcut = new gui.Shortcut(option);
+gui.App.registerGlobalHotKey(shortcut);
 //type 1 歌曲 , 100 歌手, 10 专辑, 1000 歌单
 
 // http://music.163.com/artist?id=
