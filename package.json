@@ -1,0 +1,11 @@
+{
+  "name": "one-music-app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "jquery": "^3.0.0",
+    "request": "*"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
