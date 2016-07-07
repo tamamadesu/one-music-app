@@ -2,10 +2,11 @@
   "name": "one-music-app",
   "version": "1.0.0",
   "devDependencies": {
+    "electron-prebuilt": "^1.2.0",
     "jquery": "^3.0.0",
     "request": "*"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "electron main.js"
   }
 }

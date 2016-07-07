@@ -5,82 +5,74 @@ let $ =  require("jquery");
 
 var origin = 'http://music.163.com';
 const url = `${origin}/api/search/suggest/web`;
-let limit = 3;
-let type = 1;
-let offset = 0;
+let limit = 10;
+let type = 10;
+let offset = 1;
 const option = {
-    form:{
-        s: '周杰伦',
-        limit,type,offset
-    },
-    method:'post',
-    url:url,
     headers: {
         'Origin': origin,
         'Referer': origin,
         'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      proxy: false
+    },
+    method:"get",
+    proxy: false
 };
-request(option, (err, res, body) => {
+
+let search = {
+    form:{
+        s: '周杰伦',
+        limit,type,offset,
+        order:0
+    },
+    method:'post',
+    url:url,
+};
+
+const album_url = `${origin}/api/album/18905`;
+let album = {
+    url:album_url
+}
+
+let song_id = 186014;
+const song_url = `${origin}/api/song/detail?ids=%5B${song_id}%5d`;
+let song_p = {
+    url:song_url
+}
+
+let lrc_url = `${origin}/api/song/lyric?lv=-1&id=${song_id}`;
+let lrc_p = {
+    url:lrc_url
+}
+
+let artict = 6452;
+const art_url = `${origin}/api/artist/albums/${artict}?offset=0&limit=20`;
+let art_P = {
+    url:art_url
+};
+
+let playlist =  `${origin}/api/playlist/detail?id=${311785002}`;
+let playlist_p = {
+    url:playlist
+};
+
+// http://music.163.com/api/mv/detail?id=319104&type=mp4
+
+
+let params = Object.assign(option,search);
+// let params = Object.assign(option,album);
+// let params = Object.assign(option,song_p);
+// let params = Object.assign(option,art_P);
+// let params = Object.assign(option,lrc_p);
+// let params = Object.assign(option,playlist_p);
+
+request(params, (err, res, body) => {
     if (!err && res.statusCode == 200) {
-        let info = JSON.parse(body).result.albums[0];
+        // let info = JSON.parse(body).result.albums[1];
+        // let info = JSON.parse(body).album.songs[0];
+        let info = JSON.parse(body);
+        console.log(info);
         $("body").html(JSON.stringify(info,'',2));
     }
 });
 
-console.log(process);
 
-// const electron = require('electron')
-// // Module to control application life.
-// const app = electron.app
-// // Module to create native browser window.
-// const BrowserWindow = electron.BrowserWindow
-
-// // Keep a global reference of the window object, if you don't, the window will
-// // be closed automatically when the JavaScript object is garbage collected.
-// let mainWindow
-
-// function createWindow () {
-//   // Create the browser window.
-//   mainWindow = new BrowserWindow({width: 800, height: 600})
-
-//   // and load the index.html of the app.
-//   mainWindow.loadURL(`file://${__dirname}/index.html`)
-
-//   // Open the DevTools.
-//   mainWindow.webContents.openDevTools()
-
-//   // Emitted when the window is closed.
-//   mainWindow.on('closed', function () {
-//     // Dereference the window object, usually you would store windows
-//     // in an array if your app supports multi windows, this is the time
-//     // when you should delete the corresponding element.
-//     mainWindow = null
-//   })
-// }
-
-// // This method will be called when Electron has finished
-// // initialization and is ready to create browser windows.
-// // Some APIs can only be used after this event occurs.
-// app.on('ready', createWindow)
-
-// // Quit when all windows are closed.
-// app.on('window-all-closed', function () {
-//   // On OS X it is common for applications and their menu bar
-//   // to stay active until the user quits explicitly with Cmd + Q
-//   if (process.platform !== 'darwin') {
-//     app.quit()
-//   }
-// })
-
-// app.on('activate', function () {
-//   // On OS X it's common to re-create a window in the app when the
-//   // dock icon is clicked and there are no other windows open.
-//   if (mainWindow === null) {
-//     createWindow()
-//   }
-// })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
